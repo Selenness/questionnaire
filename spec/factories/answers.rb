@@ -5,4 +5,5 @@ FactoryGirl.define do
   factory :invalid_answer, class: "Answer" do
     body nil
   end
+
 end
