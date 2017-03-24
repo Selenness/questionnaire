@@ -16,7 +16,7 @@ FactoryGirl.define do
   trait :with_answers do
     after :create do |question|
 
-      FactoryGirl.create_list :answer, 2, question: question, user: create(:user)
+      FactoryGirl.create_list :answer, 1, question: question, user: create(:user)
     end
   end
 
