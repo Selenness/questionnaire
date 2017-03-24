@@ -9,6 +9,8 @@ feature 'Sign out user', %q{
 
   scenario 'Authenticated user click on sign out link' do
     sign_in(user)
+    visit root_path
+    save_and_open_page
     click_on 'Sign out'
     expect(current_path).to eq root_path
     expect(page).not_to have_link('Sign out')

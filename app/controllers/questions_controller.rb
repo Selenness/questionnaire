@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
+      flash[:notice] = 'Your question failed to create.'
       render :new
     end
   end
@@ -36,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy! if current_user == @question.user
+    @question.destroy! if current_user.author_of?(@question)
     redirect_to questions_path
   end
 

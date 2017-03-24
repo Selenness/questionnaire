@@ -9,8 +9,8 @@ feature 'User sign in', %q{
 
   scenario 'Registered user try to sign in' do
     sign_in(user)
-
-    expect(page).to have_content 'Signed in successfully.'
+    visit root_path
+    expect(page).to have_content 'Sign out Ask question'
     expect(current_path).to eq root_path
   end
 

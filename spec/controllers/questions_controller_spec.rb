@@ -65,7 +65,7 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
     context 'with valid attributes' do
       it 'saves the new question in the database' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show' do
@@ -126,17 +126,12 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
     let!(:question) { create(:question, :with_answers) }
 
-    it 'it deletes question with answers' do
+    it 'it deletes question belonging to user' do
       sign_in(question.user)
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
 
-    it 'deletes answers on question delete' do
-      sign_in(question.user)
-      expect { delete :destroy, params: { id: question } }.to change(Answer, :count).by(-2)
-    end
-
-    it 'deletes question belonging to user' do
+    it 'deletes question belonging to other user' do
       expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
     end
 

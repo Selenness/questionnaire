@@ -9,6 +9,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
+        expect { post :create, params: { question_id: @question.id, answer: attributes_for(:answer) } }.to change(@user.answers, :count).by(1)
         expect { post :create, params: { question_id: @question.id, answer: attributes_for(:answer) } }.to change(@question.answers, :count).by(1)
       end
 
@@ -36,7 +37,6 @@ RSpec.describe AnswersController, type: :controller do
 
     it "does not delete other's answer" do
       expect { delete :destroy, params: { question_id: question.id, id: question.answers.first.id } }.not_to change(Answer, :count)
-      puts response
     end
 
     it 'deletes users answer' do

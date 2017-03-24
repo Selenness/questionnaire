@@ -11,7 +11,7 @@ feature 'Index of quastions', %q{
   scenario 'Any user could see any question' do
     visit questions_path
     questions.each do |question|
-      expect(page).to have_selector("[href=\"#{question_path(question.id)}\"]")
+      expect(page).to have_content question.title
     end
   end
 end
