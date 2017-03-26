@@ -7,9 +7,9 @@ class AnswersController < ApplicationController
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
     else
-      flash[:notice] = 'Your answer failed to create.'
+      flash[:notice] = "Errors"
     end
-    redirect_to @question
+    render 'questions/show'
   end
 
   def destroy

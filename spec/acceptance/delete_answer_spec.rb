@@ -15,14 +15,16 @@ feature 'Delete answer', %q{
 
   scenario "Authenticated user tries to delete other's answer" do
     sign_in(user)
-    visit question_path(id: question.id)
+    visit question_path(question)
     expect(page).to_not have_link "Delete"
   end
 
   scenario "Authenticated user tries to delete his answer" do
     sign_in(question.answers.first.user)
-    visit question_path(id: question.id)
+    visit question_path(question)
+    answer_body = question.answers.first.body
+    expect(page).to have_content answer_body
     click_on "Delete"
-    expect(page).not_to have_link "Delete"
+    expect(page).not_to have_content answer_body
   end
 end

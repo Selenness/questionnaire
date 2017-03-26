@@ -6,7 +6,7 @@ h2 Answers:
 ul
 -@question.answers.each do |answer|
     li=answer.body
-    -if user_signed_in? && current_user.author_of?(answer)
+    -if answer.id.present? && user_signed_in? && current_user.author_of?(answer)
       =link_to "Delete", question_answer_path(question_id: @question.id, id: answer.id), method: :delete
 
 =render 'answers/form'

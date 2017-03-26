@@ -15,7 +15,7 @@ feature 'Create question', %q{
     fill_in 'Body', with: 'text text'
     click_on 'Create'
 
-    expect(page).to have_content 'Your question failed to create.'
+    expect(page).to have_content "Title can't be blank"
   end
 
   scenario 'Authenticated user create question' do

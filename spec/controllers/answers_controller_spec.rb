@@ -8,14 +8,17 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     context 'with valid attributes' do
-      it 'saves the new answer in the database' do
-        expect { post :create, params: { question_id: @question.id, answer: attributes_for(:answer) } }.to change(@user.answers, :count).by(1)
+      it 'saves the new answer in the database with connection with question' do
         expect { post :create, params: { question_id: @question.id, answer: attributes_for(:answer) } }.to change(@question.answers, :count).by(1)
       end
 
-      it 'redirects to question' do
+      it 'saves the new answers in the database with connection with user' do
+        expect { post :create, params: { question_id: @question.id, answer: attributes_for(:answer) } }.to change(@user.answers, :count).by(1)
+      end
+
+      it 'render question show' do
         post :create, params: { question_id: @question.id, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template 'questions/show'
       end
     end
 
@@ -26,7 +29,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question' do
         post :create, params: { question_id: @question.id, answer: attributes_for(:invalid_answer) }
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template 'questions/show'
       end
     end
   end

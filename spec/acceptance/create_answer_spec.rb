@@ -11,25 +11,25 @@ feature 'Create answer to question', %q{
   scenario 'User create invalid answer'do
     sign_in(user)
     visit question_path(id: question.id)
-    fill_in 'answer[body]', with: nil
+    fill_in 'Body', with: nil
     click_on 'Create'
-    expect(page).to have_content "Your answer failed to create."
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Authenticate user create answer'do
     sign_in(user)
     visit question_path(id: question.id)
     expect(page).to have_selector("form#new_answer")
-    fill_in 'answer[body]', with: 'Test answer'
+    fill_in 'Body', with: 'Test answer'
     click_on 'Create'
 
-    expect(page).to have_content question.answers.first.body
+    expect(page).to have_content 'Test answer'
   end
 
   scenario 'Non-authenticate user tries to create answer' do
     visit question_path(id: question.id)
     expect(page).to have_selector("form#new_answer")
-    fill_in 'answer[body]', with: 'Test answer'
+    fill_in 'Body', with: 'Test answer'
     click_on 'Create'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'

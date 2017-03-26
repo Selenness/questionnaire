@@ -11,8 +11,9 @@ feature 'Delete question', %q{
   scenario 'Authenticated user delete his question' do
     sign_in(question.user)
     visit questions_path
+    expect(page).to have_content question.title
     click_on "Delete"
-    expect(page).not_to have_link "Delete"
+    expect(page).not_to have_content question.title
   end
 
   scenario 'Non-authenticated user tries to delete question' do
