@@ -8,22 +8,24 @@ feature 'Create answer to question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  scenario 'User create invalid answer'do
+  scenario 'User create invalid answer', js: true do
     sign_in(user)
-    visit question_path(id: question.id)
+    visit question_path(question)
     fill_in 'Body', with: nil
     click_on 'Create'
     expect(page).to have_content "Body can't be blank"
   end
 
-  scenario 'Authenticate user create answer'do
+  scenario 'Authenticate user create answer', js: true do
     sign_in(user)
-    visit question_path(id: question.id)
-    expect(page).to have_selector("form#new_answer")
+    visit question_path(question)
     fill_in 'Body', with: 'Test answer'
     click_on 'Create'
 
-    expect(page).to have_content 'Test answer'
+    expect(current_path).to eq question_path(question)
+    within '.answers' do
+      expect(page).to have_content 'Test answer'
+    end
   end
 
   scenario 'Non-authenticate user tries to create answer' do

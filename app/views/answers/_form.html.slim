@@ -1,5 +1,6 @@
-= render 'application/errors', resource: @answer
-= form_for([@question, @answer]) do |f|
+div.error
+  = render 'application/errors', resource: @answer
+= form_for [@question, @answer], remote: true do |f|
   =f.label :body
   =f.text_area :body
   =f.submit 'Create'

@@ -27,7 +27,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 Capybara.default_max_wait_time = 15
 
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new()
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
 
 Capybara.javascript_driver = :chrome
