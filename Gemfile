@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'capybara'
 gem 'slim-rails'
+gem 'devise'
 
 
 group :development, :test do
@@ -58,9 +59,10 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'
+  gem "minitest"
+  gem 'shoulda-matchers', '2.5.0'
   gem 'database_cleaner'
-
+  gem 'launchy'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

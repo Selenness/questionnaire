@@ -6,10 +6,11 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'spec_helper'
 require 'rspec/rails'
-# require 'devise'
+require 'devise'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'database_cleaner'
+require 'shoulda/matchers'
 
 # require 'selenium-webdriver'
 
@@ -32,6 +33,11 @@ end
 Capybara.javascript_driver = :chrome
 
 RSpec.configure do |config|
+  # config.include Devise::Test::ControllerHelpers
+  config.include Warden::Test::Helpers
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+  config.include AcceptanceHelper, type: :feature
 
   config.use_transactional_fixtures = false
 
@@ -78,9 +84,9 @@ RSpec.configure do |config|
 
 end
 
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
+# Shoulda::Matchers.configure do |config|
+#   config.integrate do |with|
+#     with.test_framework :rspec
+#     with.library :rails
+#   end
+# end
