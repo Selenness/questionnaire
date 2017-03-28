@@ -1,8 +1,6 @@
 $('.error').html('<%= j render 'application/errors', resource: @answer %>');
-if('<%= @answer.id.present? %>' === 'true')
-{
-    var $created_answer = $('<li>').html('<span><%= j @answer.body %></span>');
-    $created_answer.append($('<a>Delete</a>').attr('href', '<%= @answer.id.present? ? question_answer_path(question_id: @question.id, id: @answer.id) : '#' %>').attr('data-method', 'delete'));
-    $('.answers').append($created_answer);
-}
+<% if @answer.persisted? %>
+  $('.answers').append('<%= j render 'answer' %>');
+<% end %>
+
 $('#answer_body').val('');

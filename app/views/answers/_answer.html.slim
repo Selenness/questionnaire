@@ -1,0 +1,4 @@
+li
+  span
+    =@answer.body
+    =link_to "Delete", question_answer_path(question_id: @question.id, id: @answer.id), method: :delete
