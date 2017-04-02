@@ -1,6 +1,6 @@
 div.error
-  = render 'application/errors', resource: @answer
-= form_for [@question, @answer], remote: true do |f|
+  = render 'application/errors', resource: answer
+= form_for [@question, answer], remote: true, html: { style: "display: #{answer.persisted? ? 'none' : ''}", id: "answer_form#{answer.id}" } do |f|
   =f.label :body
   =f.text_area :body
-  =f.submit 'Create'
+  =f.submit answer.persisted? ? 'Update' : 'Create'

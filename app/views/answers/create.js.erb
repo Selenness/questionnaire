@@ -1,6 +1,6 @@
 $('.error').html('<%= j render 'application/errors', resource: @answer %>');
 <% if @answer.persisted? %>
-  $('.answers').append('<%= j render 'answer' %>');
+  $('.answers').append('<%= j render 'answer', answer: @answer %>');
 <% end %>
 
 $('#answer_body').val('');

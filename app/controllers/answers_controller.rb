@@ -11,6 +11,12 @@ class AnswersController < ApplicationController
     end
   end
 
+  def update
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.find(params[:id])
+    @answer.update_attributes(answer_params) if current_user.author_of?(@answer)
+  end
+
   def destroy
     @answer = Answer.find(params[:id])
     @answer.destroy if current_user.author_of?(@answer)

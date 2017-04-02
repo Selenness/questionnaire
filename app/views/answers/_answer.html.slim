@@ -1,4 +1,10 @@
 li
-  span
-    =@answer.body
-    =link_to "Delete", question_answer_path(question_id: @question.id, id: @answer.id), method: :delete
+  span id="span_answer_#{answer.id}" data-answer-id=answer.id data-question-id=@question.id
+    =answer.body
+    -if user_signed_in? && current_user.author_of?(answer)
+      =link_to "Delete", question_answer_path(question_id: @question.id, id: answer.id), method: :delete
+      =link_to "Edit", '#', onclick: "$('#span_answer_#{answer.id}').hide(); $('#answer_form#{answer.id}').show(); return false"
+    -if user_signed_in? && current_user.author_of?(@question)
+      =radio_button_tag "best_answer_id", answer.id, @question.best_answer_id == answer.id
+      =label_tag "best_answer_id", "Set best"
+  =render 'answers/form', answer: answer
