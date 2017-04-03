@@ -15,7 +15,7 @@ feature 'Set best answer', %q{
   scenario 'Set up the best answer', js: true do
     visit question_path(question)
     within "#span_answer_#{question.answers.first.id}" do
-      choose 'best_answer_id'
+      choose 'best_answer'
     end
     expect(page).to have_content "Best answer was successfully set"
   end
@@ -23,10 +23,10 @@ feature 'Set best answer', %q{
   scenario 'Change best answer', js: true do
     visit question_path(question)
     within "span#span_answer_#{question.answers.first.id}" do
-      choose "best_answer_id"
+      choose "best_answer"
     end
     within "span#span_answer_#{answer1.id}" do
-      choose "best_answer_id"
+      choose "best_answer"
     end
     expect(page).to have_content "Best answer was successfully set"
   end

@@ -106,11 +106,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to question
       end
 
-      it 'updates best answer id' do
-        answer = create(:answer, question: question, user: user)
-        patch :update, params: { id: question, question: attributes_for(:question).merge(best_answer_id: answer.id) }
-        expect(assigns(:question).best_answer_id).to eq answer.id
-      end
     end
 
     context 'invalid attributes' do
