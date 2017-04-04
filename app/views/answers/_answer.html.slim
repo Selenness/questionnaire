@@ -2,9 +2,9 @@ li
   span id="span_answer_#{answer.id}" data-answer-id=answer.id data-question-id=@question.id
     =answer.body
     -if user_signed_in? && current_user.author_of?(answer)
-      =link_to "Delete", question_answer_path(question_id: @question.id, id: answer.id), method: :delete
+      =link_to "Delete", answer_path(id: answer.id), method: :delete
       =link_to "Edit", '#', onclick: "$('#span_answer_#{answer.id}').hide(); $('#answer_form#{answer.id}').show(); return false"
     -if user_signed_in? && current_user.author_of?(@question)
-      =radio_button_tag "best_answer", answer.id, answer.best_answer == true
-      =label_tag "best_answer", "Set best"
-  =render 'answers/form', answer: answer
+      =radio_button_tag "best", answer.id, answer.best?
+      =label_tag "best", "Set best"
+  =render 'answers/form', answer: answer, question: answer.persisted? ? nil : @question

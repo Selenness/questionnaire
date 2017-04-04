@@ -30,11 +30,7 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      if params[:question][:best_answer_id].present?
-        render plain: "Best answer was successfully set"
-      else
-        redirect_to @question
-      end
+      redirect_to @question
     else
       render :edit
     end
@@ -51,6 +47,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id)
+    params.require(:question).permit(:title, :body)
   end
 end

@@ -9,4 +9,4 @@ div.question data-question-id=@question.id
 h2 Answers:
 .answers
   =render @question.answers
-=render 'answers/form', answer: @answer
+=render 'answers/form', answer: @answer, question: @answer.persisted? ? nil : @question

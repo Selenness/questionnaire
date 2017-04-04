@@ -5,16 +5,16 @@ $(function () {
         var question_id = answer_span.data('question-id');
         var answer_id = answer_span.data('answer-id');
 
-        var $radio = answer_span.find('#best_answer_' + answer_id);
+        var $radio = answer_span.find('#best_' + answer_id);
 
         $radio.change(function(e)
         {
             $.ajax({
-                url: '/questions/' + question_id +'/answers/' + answer_id + '/set_best/',
+                url: '/answers/' + answer_id + '/set_best/',
                 method: 'patch',
                 data: {
                     answer: {
-                        best_answer: true
+                        best: true
                     }
                 },
                 success: function(message){

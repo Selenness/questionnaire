@@ -56,13 +56,8 @@ RSpec.describe AnswersController, type: :controller do
     let!(:question) { create(:question, :with_answers) }
     before { sign_in(question.answers.first.user) }
 
-    it 'assigns requested question to @question' do
-      patch :update, params: { question_id: question, id: question.answers.first, answer: attributes_for(:answer), format: :js }
-      expect(assigns(:question)).to eq question
-    end
-
     it 'assigns requested answer to @answer' do
-      patch :update, params: { question_id: question, id: question.answers.first.id, answer: attributes_for(:answer), format: :js }
+      patch :update, params: { id: question.answers.first.id, answer: attributes_for(:answer), format: :js }
       expect(assigns(:answer)).to eq question.answers.first
     end
 
@@ -79,12 +74,12 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'sets best answer' do
       sign_in(question.user)
-      answer1 = create(:answer, question: question, user: create(:user), best_answer: true)
+      answer1 = create(:answer, question: question, user: create(:user), best: true)
       answer2 = create(:answer, question: question, user: create(:user))
-      patch :set_best, params: { question_id: question, id: answer2, answer: {best_answer: true}, format: :js }
-      expect(assigns(:answer).best_answer).to be true
+      patch :set_best, params: { question_id: question, id: answer2, answer: {best: true}, format: :js }
+      expect(assigns(:answer).best?).to be true
       answer1.reload
-      expect(answer1.best_answer).to be false
+      expect(answer1.best?).to be false
     end
   end
 end
