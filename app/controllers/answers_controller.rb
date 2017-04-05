@@ -11,6 +11,18 @@ class AnswersController < ApplicationController
     end
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    @question = @answer.question
+    @answer.update_attributes(answer_params) if current_user.author_of?(@answer)
+  end
+
+  def set_best
+    @answer = Answer.find(params[:id])
+    @answer.set_best if current_user.author_of?(@answer.question)
+    render plain: "Best answer was successfully set"
+  end
+
   def destroy
     @answer = Answer.find(params[:id])
     @answer.destroy if current_user.author_of?(@answer)
@@ -20,6 +32,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, :best?)
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer to question', %q{
   In order to give answer to question
@@ -30,7 +30,7 @@ feature 'Create answer to question', %q{
 
   scenario 'Non-authenticate user tries to create answer' do
     visit question_path(id: question.id)
-    expect(page).to have_selector("form#new_answer")
+    expect(page).to_not have_selector("form#new_answer")
     fill_in 'Body', with: 'Test answer'
     click_on 'Create'
 

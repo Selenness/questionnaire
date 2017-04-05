@@ -105,6 +105,7 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, id: question, question: attributes_for(:question)
         expect(response).to redirect_to question
       end
+
     end
 
     context 'invalid attributes' do

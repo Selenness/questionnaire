@@ -1,7 +1,12 @@
 h1 Question:
-=@question.title
-=@question.body
+div id="div_question"
+  =@question.title
+  =@question.body
+=render 'form'
+div.question data-question-id=@question.id
+  -if user_signed_in? && current_user.author_of?(@question)
+    =link_to 'Edit', '#', onclick: "$('#div_question').hide(); $('.edit_question').show(); return false"
 h2 Answers:
 .answers
-  = render 'questions/answers'
-=render 'answers/form'
+  =render @question.answers
+=render 'answers/form', answer: @answer, question: @answer.persisted? ? nil : @question

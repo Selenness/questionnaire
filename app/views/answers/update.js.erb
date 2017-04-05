@@ -1,0 +1,3 @@
+$('.error').html('<%= j render 'application/errors', resource: @answer %>');
+$('#answer_form<%= @answer.id %>').hide();
+$('.answers').find('[data-answer-id="' + <%= @answer.id %> + '"]').parent('li').replaceWith('<%= j render 'answer', answer: @answer %>');
