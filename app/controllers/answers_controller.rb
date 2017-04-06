@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params.merge(user_id: current_user.id))
     if @answer.save
+      @answer.attachments.create!(attachment_params[:attachments]) if params[:answer][:attachments].present?
       flash[:notice] = 'Your answer successfully created.'
     else
       flash[:alert] = "Your answer is not saved."
@@ -32,6 +33,10 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best?)
+    params.require(:answer).permit(:body, :best)
+  end
+
+  def attachment_params
+    params.require(:answer).permit(attachments: [:file])
   end
 end

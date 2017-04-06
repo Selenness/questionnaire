@@ -3,4 +3,8 @@ div.error
 = form_for [question, answer], remote: true, html: { style: "display: #{answer.persisted? ? 'none' : ''}", id: "answer_form#{answer.id}" } do |f|
   =f.label :body
   =f.text_area :body
+  p Attachement
+  =f.fields_for :attachments do |a|
+    =a.label :file
+    =a.file_field :file
   =f.submit answer.persisted? ? 'Update' : 'Create'

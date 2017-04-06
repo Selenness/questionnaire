@@ -1,10 +1,17 @@
 li
-  span id="span_answer_#{answer.id}" data-answer-id=answer.id data-question-id=@question.id
+  span id="span_answer_#{answer.id}" data-answer-id=answer.id
     =answer.body
+    p Attachments:
+    ul
+      - answer.attachments.each do |a|
+        li= link_to a.file.identifier, a.file.url
+
     -if user_signed_in? && current_user.author_of?(answer)
       =link_to "Delete", answer_path(id: answer.id), method: :delete
-      =link_to "Edit", '#', onclick: "$('#span_answer_#{answer.id}').hide(); $('#answer_form#{answer.id}').show(); return false"
+      =link_to "Edit", '#'
+
     -if user_signed_in? && current_user.author_of?(@question)
       =radio_button_tag "best", answer.id, answer.best?
       =label_tag "best", "Set best"
+
   =render 'answers/form', answer: answer, question: answer.persisted? ? nil : @question

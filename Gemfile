@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'capybara'
 gem 'slim-rails'
 gem 'devise'
+gem 'carrierwave'
+gem 'remotipart', '~> 1.3'
 
 
 group :development, :test do
