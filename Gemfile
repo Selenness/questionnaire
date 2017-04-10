@@ -39,6 +39,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.3'
+gem "cocoon"
 
 
 group :development, :test do

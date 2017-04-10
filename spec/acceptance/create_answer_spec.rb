@@ -8,7 +8,7 @@ feature 'Create answer to question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  scenario 'User create invalid answer', js: true do
+  scenario 'User creates invalid answer', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Body', with: nil

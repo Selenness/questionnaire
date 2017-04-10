@@ -2,11 +2,17 @@ h1 Question:
 div id="div_question"
   =@question.title
   =@question.body
-
 =render 'form'
 div.question data-question-id=@question.id
   -if user_signed_in? && current_user.author_of?(@question)
     =link_to 'Edit', '#', onclick: "$('#div_question').hide(); $('.edit_question').show(); return false"
+  p Question's attachments:
+  ul
+    - @question.attachments.each do |a|
+      li
+        =link_to a.file.identifier, a.file.url
+        -if user_signed_in? && current_user.author_of?(@question)
+          =link_to 'Delete', '#', data: { attachment_id: a.id }
 
 h2 Answers:
 .answers
@@ -14,7 +20,3 @@ h2 Answers:
 h2 New answer:
 =render 'answers/form', answer: @answer, question: @answer.persisted? ? nil : @question
 
-p Attachments:
-ul
-  - @question.attachments.each do |a|
-    li= link_to a.file.identifier, a.file.url

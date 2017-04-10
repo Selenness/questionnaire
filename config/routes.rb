@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     resources :answers, shallow: true do
       patch 'set_best', on: :member
     end
-
   end
+
+  delete 'attachments/:id' => 'attachments#destroy'
   root to: "questions#index"
 end

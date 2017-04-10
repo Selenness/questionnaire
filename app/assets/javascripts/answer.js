@@ -25,7 +25,7 @@ $(function () {
             });
         });
 
-        var $delete = answer_span.find('a:contains("Delete")');
+        var $delete = answer_span.find('> a:contains("Delete")');
         $delete.click(function(e){
             e.preventDefault();
             $.ajax({
@@ -48,5 +48,10 @@ $(function () {
             return false;
         });
 
+        var $attachments = answer_span.find('ul > li');
+        $attachments.each(function(i, li){
+            var $del = $(li).find('a:contains("Delete")');
+            $del.click(delete_attachment);
+        });
     });
 });

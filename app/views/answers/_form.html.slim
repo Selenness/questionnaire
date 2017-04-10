@@ -3,8 +3,10 @@ div.error
 = form_for [question, answer], remote: true, html: { style: "display: #{answer.persisted? ? 'none' : ''}", id: "answer_form#{answer.id}" } do |f|
   =f.label :body
   =f.text_area :body
-  p Attachement
-  =f.fields_for :attachments do |a|
-    =a.label :file
-    =a.file_field :file
+  p Attachement for answer:
+  .attachments
+    = f.fields_for :attachments do |a|
+      = render partial: 'attachments/attachment_fields', locals: { f: a }
+    .links
+      = link_to_add_association 'add file', f, :attachments, partial: "attachments/attachment_fields"
   =f.submit answer.persisted? ? 'Update' : 'Create'
