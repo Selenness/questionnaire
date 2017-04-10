@@ -7,7 +7,7 @@ class AnswersController < ApplicationController
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
     else
-      flash[:alert] = "Your answer is not saved."
+      flash[:alert] = 'Your answer is not saved.'
     end
   end
 
@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
   def set_best
     @answer = Answer.find(params[:id])
     @answer.set_best if current_user.author_of?(@answer.question)
-    render plain: "Best answer was successfully set"
+    render plain: 'Best answer was successfully set'
   end
 
   def destroy
@@ -32,6 +32,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, :best?)
+    params.require(:answer).permit(:body, :best, attachments_attributes: [:file])
   end
 end

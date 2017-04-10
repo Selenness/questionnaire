@@ -33,6 +33,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders show view' do
       expect(response).to render_template :show
     end
+
+    it 'builds new attachment for answer' do
+      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
+    end
   end
 
   describe 'GET #new' do
@@ -43,14 +47,20 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
+    it 'builds new attachment for question' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'render new view' do
       expect(response).to render_template :new
     end
   end
 
   describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, id: question }
+    before {
+      sign_in question.user
+      get :edit, id: question
+    }
 
     it 'assigns requested question to question' do
       expect(assigns(:question)).to eq question
@@ -87,7 +97,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    sign_in_user
+    before { sign_in question.user }
     context 'valid attributes' do
       it 'assigns requested question to question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -95,13 +105,13 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'changes question attributes' do
-        patch :update, id: question, question: { title: "new_title", body: "new_body" }
+        patch :update, id: question, question: { title: 'new_title', body: "new_body" }
         question.reload
         expect(question.title).to eq 'new_title'
         expect(question.body).to eq 'new_body'
       end
 
-      it 'redirect to updated question' do
+      it 'redirects to updated question' do
         patch :update, id: question, question: attributes_for(:question)
         expect(response).to redirect_to question
       end

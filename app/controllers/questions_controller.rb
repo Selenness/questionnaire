@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :check_author, only: [:edit, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -8,10 +9,12 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @answer.attachments.build
   end
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def edit
@@ -37,16 +40,21 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy! if current_user.author_of?(@question)
+    @question.destroy!
     redirect_to questions_path
   end
 
   private
+
+  def check_author
+    redirect_to questions_path unless current_user.author_of?(@question)
+  end
+
   def load_question
     @question = Question.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 end
