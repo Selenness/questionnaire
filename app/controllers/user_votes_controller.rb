@@ -14,6 +14,9 @@ class UserVotesController < ApplicationController
   private
 
   def user_vote_params
-    params.require(:user_vote).permit(:votable_id, :votable_type).merge(pro: params[:user_vote][:pro] == 'true' ? 1 : -1)
+    params
+        .require(:user_vote)
+        .permit(:votable_id, :votable_type)
+        .merge(pro: params[:user_vote][:pro] == 'true' ? 1 : -1)
   end
 end
