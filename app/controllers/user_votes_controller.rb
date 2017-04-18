@@ -7,13 +7,13 @@ class UserVotesController < ApplicationController
 
   def destroy
     @user_vote = UserVote.find(params[:id])
-    @user_vote.destroy if current_user == @user_vote.user
+    @user_vote.destroy if current_user.author_of?(@user_vote)
     render json: @user_vote.votable.rate
   end
 
   private
 
   def user_vote_params
-    params.require(:user_vote).permit(:votable_id, :votable_type, :pro)
+    params.require(:user_vote).permit(:votable_id, :votable_type).merge(pro: params[:user_vote][:pro] == 'true' ? 1 : -1)
   end
 end

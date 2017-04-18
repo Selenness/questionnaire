@@ -1,3 +1,4 @@
+
 function make_votable(voting_buttons_div){
     var voting_button = voting_buttons_div;
     var like =  voting_button.find('a:contains("Like")');
@@ -29,13 +30,13 @@ function make_votable(voting_buttons_div){
 
     like.click(function(e){
         e.preventDefault();
-        send_vote(1);
+        send_vote(true);
     });
 
     dislike.click(function (e)
     {
         e.preventDefault();
-        send_vote(-1);
+        send_vote(false);
     });
 
     reset.click(function(e){
