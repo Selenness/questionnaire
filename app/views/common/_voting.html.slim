@@ -1,0 +1,8 @@
+p.rate id="#{votable.class.name}-#{votable.id}-rate"
+  = votable.rate
+-if user_signed_in?
+  .voting_button data-votable-id=votable.id data-votable-type=votable.class.name
+    -current_user_voice = votable.user_votes.find_by_user_id(current_user.id)
+    = link_to 'Reset', current_user_voice.present? ? user_vote_path(current_user_voice.id) : '#', style: "display: #{votable.voted_by?(current_user) ? '' : 'none' }"
+    = link_to 'Like', '#', style: "display: #{current_user.author_of?(votable) || votable.voted_by?(current_user) ? 'none' : '' }"
+    = link_to 'Dislike', '#', style: "display: #{current_user.author_of?(votable) || votable.voted_by?(current_user) ? 'none' : '' }"

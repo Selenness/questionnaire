@@ -5,6 +5,7 @@ $('.error').html('<%= j render 'application/errors', resource: @answer %>');
       .find('.attachments a:contains("Delete")')
       .unbind('click')
       .click(delete_attachment);
+  make_votable($('.answers').find("#span_answer_#{@answer.id}").find('.voting_button'));
 <% end %>
 
 $('#answer_body').val('');
