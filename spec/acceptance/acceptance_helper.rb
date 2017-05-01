@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
-  # Capybara.javascript_driver = :webkit
+  Capybara.server = :puma
+
+    # Capybara.javascript_driver = :webkit
 
   config.include AcceptanceHelper, type: :feature
 
@@ -26,4 +28,5 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
 end

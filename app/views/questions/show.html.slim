@@ -2,7 +2,13 @@ h1 Question:
 div id="div_question"
   =@question.title
   =@question.body
-=render 'form'
+  div.question_comments
+    h2 Comments:
+    =render @question.comments
+    =render 'comments/comment_form', comment: @comment
+
+div.comment_form
+  =render 'form'
 div.question data-question-id=@question.id
   -if user_signed_in? && current_user.author_of?(@question)
     =link_to 'Edit', '#', onclick: "$('#div_question').hide(); $('.edit_question').show(); return false"

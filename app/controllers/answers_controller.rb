@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  after_action :publish_answers, only: [:create]
 
   def create
     @question = Question.find(params[:question_id])
@@ -9,6 +10,23 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'Your answer is not saved.'
     end
+  end
+
+  def publish_answers
+    return if @answer.errors.any?
+    renderer = ApplicationController.renderer.new
+    renderer.instance_variable_set(:@env, {
+        "HTTP_HOST"=>"localhost:3000",
+        "HTTPS"=>"off",
+        "REQUEST_METHOD"=>"GET",
+        "SCRIPT_NAME"=>"",
+        "warden" => env["warden"]
+    })
+    ActionCable.server.broadcast("answers_for_#{@question.id}", renderer.render(
+        assigns: { question: @question },
+        partial: 'answers/answer',
+        locals: { answer: @answer })
+    )
   end
 
   def update
