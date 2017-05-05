@@ -5,7 +5,7 @@
   =f.label :body
   =f.text_area :body
   .attachments
-    = f.fields_for :attachments do |a|
+    = f.fields_for :attachments, @question.attachments.build do |a|
       = render partial: 'attachments/attachment_fields', locals: { f: a }
     .links
       = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attachment_fields'

@@ -1,4 +1,6 @@
 class UserVotesController < ApplicationController
+
+
   def create
     @votable = params[:user_vote][:votable_type].constantize.find(params[:user_vote][:votable_id])
     @user_vote = current_user.user_votes.create(user_vote_params) unless current_user.author_of?(@votable) || @votable.voted_by?(current_user)

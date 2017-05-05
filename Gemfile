@@ -40,6 +40,10 @@ gem 'devise'
 gem 'carrierwave'
 gem 'remotipart', '~> 1.3'
 gem "cocoon"
+gem "therubyracer"
+gem "less-rails"
+gem "twitter-bootstrap-rails"
+gem 'responders'
 
 
 group :development, :test do
@@ -50,7 +54,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
-
+  gem 'poltergeist'
 end
 
 group :development do

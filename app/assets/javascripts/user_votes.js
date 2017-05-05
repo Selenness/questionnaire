@@ -24,6 +24,9 @@ function make_votable(voting_buttons_div){
             success: function(rate){
                 reset.show();
                 votable_rate.html(rate);
+            },
+            error: function () {
+                alert("We're sorry!");
             }
         })
     }
@@ -49,12 +52,15 @@ function make_votable(voting_buttons_div){
                 like.show();
                 dislike.show();
                 votable_rate.html(rate);
+            },
+            error: function(){
+                alert("We're sorry!");
             }
         });
     });
 }
 $(document).ready(function(){
-    $('.voting_button').each(function (i, voting_buttons_div) {
+    $('[data-votable-id]').each(function (i, voting_buttons_div) {
         make_votable($(voting_buttons_div));
     });
 });

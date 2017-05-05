@@ -1,5 +1,8 @@
-p = link_to 'Ask question', new_question_path
 
-ul.question_list
+div.slider-grids
+  div
+  = link_to 'Ask question', new_question_path
+  ul.question_list
     -@questions.each do |question|
       =render 'question', question: question
+div.clearfix
