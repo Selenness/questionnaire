@@ -15,6 +15,11 @@ p
             -if user_signed_in? && current_user.author_of?(answer)
               =link_to 'Delete', '#', data: { attachment_id: a.id }
 
+      p Answer's comments:
+      div.answer_comments
+        =render answer.comments
+        =render 'comments/comment_form', comment: answer.comments.new
+
       -if user_signed_in? && current_user.author_of?(@question)
         =radio_button_tag "best", answer.id, answer.best?
         =label_tag "best", "Set best"

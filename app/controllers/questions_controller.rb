@@ -3,6 +3,8 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:edit, :update, :destroy]
 
+  after_action :publish_question, only: [:create]
+
   def index
     @questions = Question.all
   end
@@ -10,6 +12,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answer.attachments.build
+    @comment = @question.comments.new
   end
 
   def new
@@ -42,6 +45,22 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy!
     redirect_to questions_path
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    renderer = ApplicationController.renderer.new
+    renderer.instance_variable_set(:@env, {
+        "HTTP_HOST"=>"localhost:3000",
+       "HTTPS"=>"off",
+       "REQUEST_METHOD"=>"GET",
+       "SCRIPT_NAME"=>"",
+       "warden" => env["warden"]
+    })
+    ActionCable.server.broadcast('questions', renderer.render(
+        partial: 'questions/question',
+        locals: { question: @question }
+    ))
   end
 
   private

@@ -1,0 +1,39 @@
+$(function () {
+    var $question = $('.question');
+    $question.find('li').each(function(i, li){
+        var $del = $(li).find('a:contains("Delete")');
+        $del.click(delete_attachment);
+    });
+
+    App.cable.subscriptions.create('QuestionsChannel', {
+        connected: function(){
+            console.log('Connected!')
+            this.perform('follow')
+        },
+        received: function(data){
+           $('.question_list').append(data)
+        }
+    });
+
+    var question_id = $question.data('question-id')
+
+    App.cable.subscriptions.create({ channel: 'QuestionAnswersChannel', question_id: question_id },{
+        connected: function(){
+            console.log('Answers channel connected!');
+        },
+        received: function(data){
+            $('.answers').append(data)
+        }
+    });
+
+    App.cable.subscriptions.create({ channel: 'CommentsChannel', commentable_type: 'Question', commentable_id: question_id }, {
+        connected: function(){
+            console.log('Question Comments channel connected!');
+        },
+        received: function(data){
+            $('.question_comments').append(data)
+            $('#div_question').find('form#new_comment').find('textarea').val('')
+        }
+    });
+});
+
