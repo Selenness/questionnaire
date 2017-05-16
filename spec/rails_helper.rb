@@ -11,6 +11,7 @@ require 'capybara/rspec'
 require 'capybara/rails'
 require 'database_cleaner'
 require 'shoulda/matchers'
+require 'capybara/poltergeist'
 
 # require 'selenium-webdriver'
 
@@ -26,11 +27,16 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # Capybara.default_driver = :selenium
 Capybara.default_max_wait_time = 15
 
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+# Capybara.register_driver :chrome do |app|
+#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+# end
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, :js_errors => false)
 end
 
-Capybara.javascript_driver = :chrome
+# Capybara.javascript_driver = :chrome
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # config.include Devise::Test::ControllerHelpers

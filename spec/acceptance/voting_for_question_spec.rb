@@ -10,7 +10,7 @@ feature 'Voting for the best question', %q{
   given!(:question) { create(:question) }
   let(:user_vote) { create(:user_vote, user: create(:user), votable: question, pro: 1)}
 
-  scenario 'Non-authenticated user does not see vote buttons, but rate'do
+  scenario 'Non-authenticated user does not see vote buttons, but rate' do
     visit questions_path
     expect(page).not_to have_content 'Like'
     expect(page).not_to have_content 'Dislike'
@@ -52,9 +52,11 @@ feature 'Voting for the best question', %q{
 
   scenario "Non-author has voted can reset his voice", js: true do
     sign_in(user_vote.user)
+
     visit questions_path
 
     click_on 'Reset'
+
     within '.rate'do
       expect(page).to have_content '0'
     end

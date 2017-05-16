@@ -5,46 +5,36 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
 
+  respond_to :html, :js
+
   def index
-    @questions = Question.all
+    respond_with (@questions = Question.all)
   end
 
   def show
     @answer = Answer.new
-    @answer.attachments.build
-    @comment = @question.comments.new
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with (@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params.merge(user_id: current_user.id))
-    if @question.save
-      flash[:notice] = 'Your question successfully created.'
-      redirect_to @question
-    else
-      flash[:notice] = 'Your question failed to create.'
-      render :new
-    end
+    @question = Question.create(question_params.merge(user_id: current_user.id))
+    respond_with(@question)
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    @question.destroy!
-    redirect_to questions_path
+    respond_with(@question.destroy)
   end
 
   def publish_question

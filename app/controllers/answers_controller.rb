@@ -1,15 +1,39 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :load_answer, only: [:update, :set_best, :destroy]
   after_action :publish_answers, only: [:create]
+
+  respond_to   :js
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(answer_params.merge(user_id: current_user.id))
-    if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
-    else
-      flash[:alert] = 'Your answer is not saved.'
-    end
+    @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
+    respond_with (@answer)
+  end
+
+  def update
+    @question = @answer.question
+    @answer.update_attributes(answer_params) if current_user.author_of?(@answer)
+  end
+
+  def set_best
+    @answer.set_best if current_user.author_of?(@answer.question)
+    render plain: 'Best answer was successfully set'
+  end
+
+  def destroy
+    @answer.destroy if current_user.author_of?(@answer)
+    redirect_to @answer.question
+  end
+
+  private
+
+  def load_answer
+    @answer = Answer.find(params[:id])
+  end
+
+  def answer_params
+    params.require(:answer).permit(:body, :best, attachments_attributes: [:file])
   end
 
   def publish_answers
@@ -27,29 +51,5 @@ class AnswersController < ApplicationController
         partial: 'answers/answer',
         locals: { answer: @answer })
     )
-  end
-
-  def update
-    @answer = Answer.find(params[:id])
-    @question = @answer.question
-    @answer.update_attributes(answer_params) if current_user.author_of?(@answer)
-  end
-
-  def set_best
-    @answer = Answer.find(params[:id])
-    @answer.set_best if current_user.author_of?(@answer.question)
-    render plain: 'Best answer was successfully set'
-  end
-
-  def destroy
-    @answer = Answer.find(params[:id])
-    @answer.destroy if current_user.author_of?(@answer)
-    redirect_to @answer.question
-  end
-
-  private
-
-  def answer_params
-    params.require(:answer).permit(:body, :best, attachments_attributes: [:file])
   end
 end

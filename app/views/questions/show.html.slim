@@ -5,7 +5,7 @@ div id="div_question"
   div.question_comments
     h2 Comments:
     =render @question.comments
-    =render 'comments/comment_form', comment: @comment
+    =render 'comments/comment_form', comment: @question.comments.new
 
 div.comment_form
   =render 'form'
