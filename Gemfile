@@ -44,6 +44,10 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'letter_opener'
 
 
 group :development, :test do
@@ -55,6 +59,8 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'poltergeist'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
