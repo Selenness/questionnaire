@@ -7,7 +7,6 @@ feature 'social network authorization', %q{
 } do
 
   context 'through twitter' do
-
     scenario 'user has already authorisation with twitter' do
       visit(new_user_session_path)
       mock_auth_hash
@@ -21,10 +20,35 @@ feature 'social network authorization', %q{
       mock_auth_hash
       click_on 'Sign in with Twitter'
 
-      fill_in "Email", with: "test@test.com"
-      click_on 'Verify email'
+
+      fill_in "email", with: "test@test.com"
+      click_on 'Confirm email'
       open_email('test@test.com')
-      current_email.click_link 'Confirm my account'
+      current_email.click_link 'Confirm account'
+
+      expect(page).to have_link('Sign out')
+    end
+  end
+
+  context 'through facebook' do
+    scenario 'user has already authorisation with facebook' do
+      visit(new_user_session_path)
+      mock_auth_hash
+      click_on 'Sign in with Facebook'
+
+      expect(page).to have_link('Sign out')
+    end
+
+    scenario 'user authorizes in first time' do
+      visit(new_user_session_path)
+      mock_auth_hash
+      click_on 'Sign in with Facebook'
+
+
+      fill_in "email", with: "test@test.com"
+      click_on 'Confirm email'
+      open_email('test@test.com')
+      current_email.click_link 'Confirm account'
 
       expect(page).to have_link('Sign out')
     end

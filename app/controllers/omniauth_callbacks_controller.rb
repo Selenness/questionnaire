@@ -7,6 +7,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     authorization_through_network
   end
 
+  private
+
   def authorization_through_network
     @user = User.find_for_oauth(request.env['omniauth.auth'])
     if @user.persisted?
