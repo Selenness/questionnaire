@@ -100,12 +100,12 @@ RSpec.describe User do
     end
   end
 
-  it '.creates user and asigns him password'do
+  it '.creates user and assigns him password'do
     email = 'test@test.com'
     expect { User.create_with_password(email) }.to change(User, :count).by(1)
   end
 
-  describe '' do
+  describe 'user existed and has authorization' do
     let!(:user) { create(:user, confirmed_email: true) }
     let!(:authorization) {create(:authorization, provider: 'facebook', uid: '123456', user_id: user.id) }
 
