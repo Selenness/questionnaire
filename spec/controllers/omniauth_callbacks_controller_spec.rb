@@ -8,19 +8,19 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           stub_env_for_fb_omniauth
 
           get :facebook
-          @user = User.find_by_email(email: "test@test.test")
+          @user = User.find_by_email("test@test.test")
         end
 
-        it { @user.should_not be_nil }
+        it { expect(assigns(:user)).to_not be_nil }
 
-        it "should create authentication with facebook id" do
+        it "create authentication with facebook id" do
           authentication = @user.authorizations.where(provider: "facebook", uid: "1234").first
-          authentication.should_not be_nil
+          expect(authentication).not_to be_nil
         end
 
-        it { should be_user_signed_in }
+        it { expect(subject.current_user).to_not eq(nil) }
 
-        it { response.should redirect_to root_path }
+        it { expect(response).to redirect_to root_path }
       end
 
       context "when facebook email already exist in the system" do
@@ -31,7 +31,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           get :facebook
         end
 
-        it { response.should redirect_to root_path }
+        it { expect(response).to redirect_to root_path }
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           get :facebook
         end
 
-        it "should add facebook authentication to current user" do
+        it "add facebook authentication to current user" do
           user = User.where(email: "test@test.test").first
           expect(user).not_to be_nil
           fb_authentication = user.authorizations.where(provider: "facebook").first
@@ -54,9 +54,9 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           expect(fb_authentication.uid).to eq "1234"
         end
 
-        it { expect(user_signed_in?).to be_true }
+        it { expect(subject.current_user).to_not eq(nil) }
 
-        it { response.should redirect_to root_path }
+        it { expect(response).to redirect_to root_path }
       end
 
       context "when user already connected with facebook" do
@@ -70,16 +70,16 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
           get :facebook
         end
 
-        it "should not add new facebook authentication" do
+        it "not add new facebook authentication" do
           user = User.where(email: "test@test.test").first
-          user.should_not be_nil
+          expect(user).not_to be_nil
           fb_authorizations = user.authorizations.where(provider: "facebook")
-          fb_authorizations.count.should == 1
+          expect(fb_authorizations.count).to eq 1
         end
 
-        it { should be_user_signed_in }
+        it { expect(subject.current_user).to_not eq(nil) }
 
-        it { response.should redirect_to root_path }
+        it { expect(response).to redirect_to root_path }
 
       end
     end
@@ -94,12 +94,9 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
         @user = User.where(email: "test@test.test").first
       end
 
-      it { @user.should be_nil }
+      it { expect(@user).to be_nil }
 
-      it { response.should redirect_to request_email_path(
-                                           provider: 'twitter',
-                                           uid: '1234'
-                                       ) }
+      it { expect(response).to redirect_to request_email_path }
     end
   end
 

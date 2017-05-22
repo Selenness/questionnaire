@@ -1,23 +1,24 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  before_action :authorization_through_network
+
   def facebook
-    authorization_through_network
   end
 
   def twitter
-    authorization_through_network
   end
 
   private
 
   def authorization_through_network
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
+    omniauth_auth = request.env['omniauth.auth']
+    @user = User.find_for_oauth(omniauth_auth)
     if @user.persisted?
       sign_in_and_redirect @user, event: :authentication
     else
-      redirect_to request_email_path(
-                      provider: request.env['omniauth.auth'].provider,
-                      uid: request.env['omniauth.auth'].uid
-                  )
+      session[:provider] = omniauth_auth.provider
+      session[:uid] = omniauth_auth.uid
+      redirect_to request_email_path
     end
   end
 end

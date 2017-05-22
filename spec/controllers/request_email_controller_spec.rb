@@ -11,14 +11,15 @@ RSpec.describe RequestEmailController, type: :controller do
     it 'signs in as user if user exists and is confirmed' do
       user = create(:fb_user)
       auth = user.authorizations.first
-      post :send_confirmation_email, params: { user: { email: user.email }, provider: auth.provider, uid: auth.uid }
+
+      post :send_confirmation_email, params: { user: { email: user.email } }, session: { provider: auth.provider, uid: auth.uid }
       expect(response).to redirect_to root_path
     end
 
     it 'signs in as user if user exists and is confirmed' do
       user = create(:tw_user)
       auth = user.authorizations.first
-      post :send_confirmation_email, params: { user: { email: user.email }, provider: auth.provider, uid: auth.uid }
+      post :send_confirmation_email, params: { user: { email: user.email } }, session: { provider: auth.provider, uid: auth.uid }
       expect(response).to redirect_to root_path
     end
 
