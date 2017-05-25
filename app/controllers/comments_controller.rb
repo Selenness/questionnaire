@@ -1,4 +1,7 @@
 class CommentsController < ApplicationController
+
+  authorize_resource
+
   after_action :publish_comment
 
   def create

@@ -1,5 +1,6 @@
 class UserVotesController < ApplicationController
 
+  authorize_resource
 
   def create
     @votable = params[:user_vote][:votable_type].constantize.find(params[:user_vote][:votable_id])

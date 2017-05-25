@@ -1,7 +1,8 @@
 
 div.slider-grids
   div
-  = link_to 'Ask question', new_question_path
+  -if can?(:create, Question)
+    = link_to 'Ask question', new_question_path
   ul.question_list
     -@questions.each do |question|
       =render 'question', question: question
