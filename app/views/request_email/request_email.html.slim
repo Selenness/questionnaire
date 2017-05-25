@@ -1,0 +1,4 @@
+h2 Your email:
+=form_for(User.new, url: confirm_email_path, html: { method: :post }) do |f|
+  =f.text_area :email
+  =f.submit 'Confirm email'

@@ -44,6 +44,10 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'letter_opener'
 
 
 group :development, :test do
@@ -55,6 +59,8 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'poltergeist'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
@@ -72,6 +78,7 @@ group :test do
   gem 'shoulda-matchers', '2.5.0'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'faker'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
