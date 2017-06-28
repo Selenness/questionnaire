@@ -12,6 +12,7 @@ require 'capybara/rails'
 require 'database_cleaner'
 require 'shoulda/matchers'
 require 'capybara/poltergeist'
+require 'cancan/matchers'
 
 # require 'selenium-webdriver'
 

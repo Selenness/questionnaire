@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   respond_to :html, :js
 
+  authorize_resource
+
   def index
     respond_with (@questions = Question.all)
   end

@@ -71,6 +71,7 @@ group :development do
   gem 'spring'
   gem 'better_errors'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'cancancan'
 end
 
 group :test do
