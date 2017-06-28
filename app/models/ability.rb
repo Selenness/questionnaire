@@ -19,6 +19,9 @@ class Ability
 
   def user_abilities
     guest_abilities
+    can :set_best, Answer do |answer|
+      user.author_of?(answer.question)
+    end
     can :create, [Question, Answer, UserVote]
     can :update, [Question, Answer, Comment, UserVote], user: user
     can :destroy, [Question, Answer, Comment, UserVote], user: user

@@ -14,8 +14,6 @@ class User < ApplicationRecord
     entry.user_id == self.id
   end
 
-
-
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization

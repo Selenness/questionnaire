@@ -19,7 +19,6 @@ class AnswersController < ApplicationController
   end
 
   def set_best
-    @answer.set_best if current_user.author_of?(@answer.question)
     render plain: 'Best answer was successfully set'
   end
 
