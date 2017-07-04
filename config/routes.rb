@@ -14,7 +14,9 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :profiles_list, on: :collection
       end
-      resource :questions
+      resources :questions, only: [:index] do
+        # get :index, on: :collection
+      end
     end
   end
 
