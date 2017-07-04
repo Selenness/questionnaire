@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :profiles_list, on: :collection
       end
+      resource :questions
     end
   end
 

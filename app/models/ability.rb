@@ -6,10 +6,14 @@ class Ability
   def initialize(user)
     @user =  user
     if user
-      user_abilities
+      user.admin? ? admin_abilities : user_abilities
     else
       guest_abilities
     end
+  end
+
+  def admin_abilities
+    can :manage, :all
   end
 
   def guest_abilities
