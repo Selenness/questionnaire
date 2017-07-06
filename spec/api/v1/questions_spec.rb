@@ -32,7 +32,7 @@ RSpec.describe 'Questions API', type: :request do
 
       %w(id title body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
-          puts response.body
+
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("0/#{attr}")
         end
       end
@@ -51,6 +51,40 @@ RSpec.describe 'Questions API', type: :request do
             expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/answers/0/#{attr}")
           end
         end
+      end
+    end
+  end
+
+  describe 'GET /show' do
+    context 'unauthorized' do
+      let!(:question) { create(:question) }
+
+      it 'returns 401 status if there is no access_token' do
+        get "/api/v1/questions/#{question.id}", params: { format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: '1234' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let!(:question) { create(:question) }
+      let!(:attachment) { create_list(:attachment, 2, attachable: question) }
+      let!(:comment) { create_list(:comment, 2, commentable: question) }
+      let!(:access_token) { create(:access_token) }
+
+      before { get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token, question_id: question.id } }
+
+      it 'returns question with attachments' do
+        puts response.body
+        expect(response.body).to have_json_size(2).at_path('attachments')
+      end
+
+      it 'returns question with comments' do
+        expect(response.body).to have_json_size(2).at_path('comments')
       end
     end
   end
