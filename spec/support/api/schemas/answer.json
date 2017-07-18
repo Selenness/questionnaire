@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties" : {
+    "answer" : {
+      "type": "object",
+      "properties" : {
+        "id" : { "type" : "integer" },
+        "body" : { "type" : "string" },
+        "created_at" : { "type" : "string", "format": "date-time" },
+        "updated_at" : { "type" : "string", "format": "date-time" },
+        "user_id" : { "type" : "integer" },
+        "comments" : {
+          "type" : "array",
+          "items" : { "$ref": "comment.json#/properties/comment"}
+        },
+        "attachments" : {
+          "type" : "array",
+          "items" : { "$ref": "attachment.json#/properties/attachment"}
+        }
+      }
+    }
+  }
+}

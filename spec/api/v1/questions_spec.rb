@@ -79,13 +79,64 @@ RSpec.describe 'Questions API', type: :request do
       before { get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token, question_id: question.id } }
 
       it 'returns question with attachments' do
-        puts response.body
         expect(response.body).to have_json_size(2).at_path('attachments')
       end
 
       it 'returns question with comments' do
         expect(response.body).to have_json_size(2).at_path('comments')
       end
+    end
+  end
+
+  describe "POST #create" do
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+      context "with invalid attributes" do
+        it 'returns 422 status' do
+          post "/api/v1/questions", params: {
+              question: attributes_for(:invalid_question),
+              access_token: access_token.token,
+              format: :json
+          }
+          expect(response.status).to eq 422
+        end
+
+        it 'doesnt create question in database' do
+          expect { post "/api/v1/questions",
+                        params: {
+                            question: attributes_for(:invalid_question),
+                            access_token: access_token.token,
+                            format: :json
+                        }
+          }.to_not change(Question, :count)
+        end
+      end
+
+      context "with valid attributes" do
+        it 'returns success status' do
+          post "/api/v1/questions",
+               params: {
+                   question: attributes_for(:question),
+                   access_token: access_token.token,
+                   format: :json
+               }
+          expect(response).to be_success
+        end
+
+        it 'creates question in database' do
+          expect { post "/api/v1/questions",
+                        params: {
+                            question: attributes_for(:question),
+                            access_token: access_token.token,
+                            format: :json
+                        }
+          }.to change(Question, :count).by(1)
+        end
+      end
+
     end
   end
 end
