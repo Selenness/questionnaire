@@ -49,6 +49,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'letter_opener'
 gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -59,7 +62,6 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'poltergeist'
-  gem 'letter_opener'
   gem 'capybara-email'
 end
 
@@ -81,6 +83,7 @@ group :test do
   gem 'launchy'
   gem 'faker'
   gem 'json_spec'
+  gem 'json_matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

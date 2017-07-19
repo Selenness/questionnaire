@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties" : {
+    "comment" : {
+      "type": "object",
+      "properties" : {
+        "id" : { "type" : "integer" },
+        "body" : { "type" : "string" },
+        "created_at" : { "type" : "string", "format": "date-time" },
+        "updated_at" : { "type" : "string", "format": "date-time" },
+        "user_id" : { "type" : "integer" }
+      }
+    }
+  }
+}

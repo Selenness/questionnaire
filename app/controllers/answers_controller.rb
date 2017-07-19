@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
-    respond_with (@answer)
+    respond_with @answer
   end
 
   def update
