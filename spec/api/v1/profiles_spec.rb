@@ -2,16 +2,11 @@ require 'spec_helper'
 
 RSpec.describe 'Profile API', type: :request do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/me', params: { format: :json }
-        expect(response.status).to eq 401
-      end
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/me', params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
+    it_behaves_like 'API Authenticable'
+
+    def do_request(options = {})
+      get '/api/v1/profiles/me', { format: :json }.merge(options)
     end
 
     context 'authorized' do
@@ -39,16 +34,11 @@ RSpec.describe 'Profile API', type: :request do
   end
 
   describe 'GET /profiles_list' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/profiles_list', params: { format: :json }
-        expect(response.status).to eq 401
-      end
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/profiles_list', params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
+    it_behaves_like 'API Authenticable'
+
+    def do_request(options = {})
+      get '/api/v1/profiles/profiles_list', { format: :json }.merge(options)
     end
 
     context 'authorized' do
