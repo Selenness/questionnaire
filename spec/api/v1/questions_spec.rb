@@ -2,16 +2,11 @@ require 'spec_helper'
 
 RSpec.describe 'Questions API', type: :request do
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/questions', params: { format: :json }
-        expect(response.status).to eq 401
-      end
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/questions', params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
+    it_behaves_like 'API Authenticable'
+
+    def do_request(options = {})
+      get '/api/v1/questions', { format: :json }.merge(options)
     end
 
     context 'authorized' do
@@ -56,18 +51,13 @@ RSpec.describe 'Questions API', type: :request do
   end
 
   describe 'GET /show' do
-    context 'unauthorized' do
-      let!(:question) { create(:question) }
 
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/questions/#{question.id}", params: { format: :json }
-        expect(response.status).to eq 401
-      end
+    it_behaves_like 'API Authenticable'
 
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: '1234' }
-        expect(response.status).to eq 401
-      end
+    let!(:question) { create(:question) }
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}", { format: :json }.merge(options)
     end
 
     context 'authorized' do
@@ -89,7 +79,6 @@ RSpec.describe 'Questions API', type: :request do
   end
 
   describe "POST #create" do
-
     context 'authorized' do
       let(:user) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
@@ -136,7 +125,6 @@ RSpec.describe 'Questions API', type: :request do
           }.to change(Question, :count).by(1)
         end
       end
-
     end
   end
 end
