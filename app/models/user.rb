@@ -57,4 +57,8 @@ class User < ApplicationRecord
   def confirm_email
     self.update_attribute(:confirmed_email, true)
   end
+
+  def subscribed?(question)
+    Notification.exists?(user_id: self.id, question_id: question.id)
+  end
 end

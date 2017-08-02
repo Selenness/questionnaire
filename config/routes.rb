@@ -1,4 +1,9 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
+  resources :notifications, only: [:create, :destroy]
+
+
+  mount Sidekiq::Web => '/sidekiq'
 
   use_doorkeeper
 

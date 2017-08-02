@@ -14,6 +14,8 @@ class Answer < ApplicationRecord
 
   default_scope { order('best desc') }
 
+  after_create :notify
+
   def set_best
     ActiveRecord::Base.transaction do
       reset_best
@@ -23,6 +25,16 @@ class Answer < ApplicationRecord
 
 
   private
+
+  def notify
+    self.question.subscribers.each do |subscriber|
+      NotificationsMailer.new_answer(
+          user: subscriber,
+          question: self.question,
+          answer: self
+      ).deliver_later
+    end
+  end
 
   def reset_best
     self.question.answers.update_all(best: false)
