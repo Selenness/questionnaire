@@ -3,6 +3,6 @@ class DigestJob
   sidekiq_options queue: :mailers
 
   def perform
-    DigestMailer.daily.deliver
+    DigestMailer.daily.deliver_now
   end
 end

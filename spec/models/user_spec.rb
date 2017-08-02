@@ -129,4 +129,13 @@ RSpec.describe User do
     end
   end
 
+  describe '.chek subscribed' do
+    let!(:user) { create (:user) }
+    let!(:question) { create(:question) }
+    let!(:notification) { create(:notification, user: user, question: question) }
+
+    it 'return true' do
+      expect(user.subscribed?(question)).to be true
+    end
+  end
 end
