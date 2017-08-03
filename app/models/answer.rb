@@ -27,13 +27,7 @@ class Answer < ApplicationRecord
   private
 
   def notify
-    self.question.subscribers.each do |subscriber|
-      NotificationsMailer.new_answer(
-          user: subscriber,
-          question: self.question,
-          answer: self
-      ).deliver_later
-    end
+    NotifyJob.perform_later self
   end
 
   def reset_best

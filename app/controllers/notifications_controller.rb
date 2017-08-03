@@ -5,8 +5,7 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    @notification = Notification.find_by_user_id_and_question_id(current_user.id, params[:question_id])
-    @notification.destroy if @notification.present?
+    @notification = Notification.where(user_id: current_user.id, question_id: params[:question_id]).delete_all
     head :ok
   end
 

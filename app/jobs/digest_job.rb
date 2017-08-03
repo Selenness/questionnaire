@@ -1,6 +1,5 @@
-class DigestJob
-  include Sidekiq::Worker
-  sidekiq_options queue: :mailers
+class DigestJob < ApplicationJob
+  queue_as :mailers
 
   def perform
     DigestMailer.daily.deliver_now

@@ -280,6 +280,9 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.3, >= 3.3.3)
+    sidekiq-cron (0.6.3)
+      rufus-scheduler (>= 3.3.0)
+      sidekiq (>= 4.2.1)
     sidekiq-scheduler (2.1.7)
       redis (~> 3)
       rufus-scheduler (~> 3.2)
@@ -382,6 +385,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers (= 2.5.0)
   sidekiq
+  sidekiq-cron
   sidekiq-scheduler
   slim-rails
   spring
