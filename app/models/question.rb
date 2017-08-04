@@ -6,7 +6,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable
   has_many :notifications
-  has_many :subscribers, class_name: 'User', through: :notifications #, join_table: :notifications
+  has_many :subscribers, class_name: 'User', through: :notifications, source: :user
   # has_many :user_votes, as: :votable
   belongs_to :user
   validates :title, :body, presence: true

@@ -1,7 +1,6 @@
 class DigestMailer < ApplicationMailer
-  def daily
-    @mails = User.pluck(:email)
+  def daily(email)
     @questions = Question.where('created_at >= ?', Time.now - 1.day)
-    mail(to: @mails, subject: 'Questionnaire daily digest')
+    mail(to: email, subject: 'Questionnaire daily digest')
   end
 end
