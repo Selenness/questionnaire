@@ -8,10 +8,9 @@ RSpec.describe NotifyJob, type: :class do
     let!(:notification) { create(:notification, user_id: user, question_id: question) }
 
     it 'sends notification' do
-      expect { perform_enqueued_jobs {
-        answer = create(:answer, question: question)
-        enqueued_jobs.each { |job| ActionMailer::DeliveryJob.perform_now(*job[:args]) }
-      } }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      answer = create(:answer, question: question)
+      expect(NotificationsMailer).to receive(:new_answer).with(user: user, question: question, answer: answer).and_call_original
+      NotifyJob.perform_now(answer)
     end
   end
 end
