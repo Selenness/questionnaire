@@ -6,6 +6,11 @@ RSpec.describe User do
   it { should validate_presence_of (:email )}
   it { should validate_presence_of (:password) }
 
+  it 'return hash for search' do
+    user = FactoryGirl.create(:user)
+    expect(user.to_search_result).to eq(title: user.email)
+  end
+
   describe '.find for oauth'do
     let!(:user) { create(:user) }
     let (:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }

@@ -1,3 +1,4 @@
 =render 'search/search_form'
 h1 Result
-= render partial: 'search_result', collection: @result.collect{ |result| result.to_search_result }
+.result
+  = render partial: 'search_result', collection: @result.collect{ |result| result.to_search_result }

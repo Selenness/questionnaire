@@ -15,6 +15,11 @@ RSpec.describe Answer, type: :model do
       question.answers.first.set_best
       expect(question.answers.first.best?).to be true
     end
+
+    it 'returns hash for search'do
+      answer = question.answers.first
+      expect(answer.to_search_result).to eq(title: question.title, body: answer.body)
+    end
   end
 
   describe 'Answers ordering' do
