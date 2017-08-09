@@ -61,4 +61,8 @@ class User < ApplicationRecord
   def subscribed?(question)
     Notification.exists?(user_id: self.id, question_id: question.id)
   end
+
+  def to_search_result
+    { title: self.email }
+  end
 end

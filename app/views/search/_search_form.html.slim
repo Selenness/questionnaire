@@ -1,0 +1,7 @@
+= form_tag :search do
+  = text_field_tag :term
+  - %w(question answer comment user).each do |option|
+    p
+      = radio_button_tag :options, option.camelize
+      = label_tag :options, "Search in #{option.pluralize}"
+  = submit_tag 'Search'

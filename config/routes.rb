@@ -1,5 +1,8 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+
+  post 'search' => 'search#search', as: :search
+
   resources :notifications, only: [:create, :destroy]
 
 
