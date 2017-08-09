@@ -1,7 +1,8 @@
 h1 Question:
-div id="div_question"
+div id="div_question" data-question-id=@question.id
   =@question.title
   =@question.body
+  =link_to current_user.subscribed?(@question) ? 'Unsubscibe' : 'Subscribe', '#'
   div.question_comments
     h2 Comments:
     =render @question.comments
