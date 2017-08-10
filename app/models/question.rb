@@ -15,6 +15,10 @@ class Question < ApplicationRecord
 
   after_create :subscribe_author
 
+  def to_search_result
+    { title: self.title, body: self.body }
+  end
+
   private
 
   def subscribe_author

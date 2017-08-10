@@ -23,6 +23,10 @@ class Answer < ApplicationRecord
     end
   end
 
+  def to_search_result
+    { title: self.question.title, body: self.body }
+  end
+
 
   private
 

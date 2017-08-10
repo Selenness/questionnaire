@@ -2,15 +2,21 @@ require 'rails_helper'
 
 RSpec.configure do |config|
   Capybara.server = :puma
+  config.use_transactional_fixtures = true
 
     # Capybara.javascript_driver = :webkit
 
   config.include AcceptanceHelper, type: :feature
+  # config.include SphinxHelpers, type: :feature
 
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    ThinkingSphinx::Test.init
+    # Configure and start Sphinx, and automatically
+    # stop Sphinx at the end of the test suite.
+    ThinkingSphinx::Test.start_with_autostop
   end
 
   config.before(:each) do

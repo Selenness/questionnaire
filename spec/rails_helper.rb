@@ -14,6 +14,7 @@ require 'shoulda/matchers'
 require 'capybara/poltergeist'
 require 'cancan/matchers'
 require 'json_matchers/rspec'
+require 'thinking_sphinx/test'
 
 # require 'selenium-webdriver'
 

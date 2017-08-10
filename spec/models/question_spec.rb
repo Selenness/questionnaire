@@ -10,11 +10,19 @@ RSpec.describe Question, type: :model do
   it { should have_many :notifications }
   it { should have_many(:subscribers).class_name('User').through(:notifications) }
 
+
+
   describe 'make author subscription after create question' do
     it 'makes notification' do
       question = FactoryGirl.build(:question)
       expect(Notification).to receive(:create).with(user_id: 1, question_id: 1)
       question.save
     end
+  end
+
+
+  it 'return hash for search' do
+    question = FactoryGirl.create(:question)
+    expect(question.to_search_result).to eq(title: question.title, body: question.body)
   end
 end
