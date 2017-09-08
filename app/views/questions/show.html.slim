@@ -1,29 +1,30 @@
-h1 Question:
-div id="div_question" data-question-id=@question.id
-  =@question.title
-  =@question.body
-  =link_to current_user.subscribed?(@question) ? 'Unsubscibe' : 'Subscribe', '#'
-  div.question_comments
-    h2 Comments:
-    =render @question.comments
-    =render 'comments/comment_form', comment: @question.comments.new
+-cache resource do
+  h1 Question:
+  div id="div_question" data-question-id=@question.id
+    =@question.title
+    =@question.body
+    =link_to current_user.subscribed?(@question) ? 'Unsubscibe' : 'Subscribe', '#'
+    div.question_comments
+      h2 Comments:
+      =render @question.comments
+      =render 'comments/comment_form', comment: @question.comments.new
 
-div.comment_form
-  =render 'form'
-div.question data-question-id=@question.id
-  -if user_signed_in? && current_user.author_of?(@question)
-    =link_to 'Edit', '#', onclick: "$('#div_question').hide(); $('.edit_question').show(); return false"
-  p Question's attachments:
-  ul
-    - @question.attachments.each do |a|
-      li
-        =link_to a.file.identifier, a.file.url
-        -if user_signed_in? && current_user.author_of?(@question)
-          =link_to 'Delete', '#', data: { attachment_id: a.id }
+  div.comment_form
+    =render 'form'
+  div.question data-question-id=@question.id
+    -if user_signed_in? && current_user.author_of?(@question)
+      =link_to 'Edit', '#', onclick: "$('#div_question').hide(); $('.edit_question').show(); return false"
+    p Question's attachments:
+    ul
+      - @question.attachments.each do |a|
+        li
+          =link_to a.file.identifier, a.file.url
+          -if user_signed_in? && current_user.author_of?(@question)
+            =link_to 'Delete', '#', data: { attachment_id: a.id }
 
-h2 Answers:
-.answers
-  =render @question.answers
-h2 New answer:
-=render 'answers/form', answer: @answer, question: @answer.persisted? ? nil : @question
+  h2 Answers:
+  .answers
+    =render @question.answers
+  h2 New answer:
+  =render 'answers/form', answer: @answer, question: @answer.persisted? ? nil : @question
 
